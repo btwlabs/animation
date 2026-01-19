@@ -1,0 +1,7 @@
+name: Animation
+type: module
+description: 'Provides animation functionality to story blocks.'
+package: Custom
+core: 8.x
+core_version_requirement: ^8 || ^9 || ^10 || ^11
+configure: entity.animation.collection

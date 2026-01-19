@@ -1,0 +1,5 @@
+entity.animation.add_form:
+  route_name: 'entity.animation.add_form'
+  title: 'Add animations'
+  appears_on:
+    - entity.animation.collection

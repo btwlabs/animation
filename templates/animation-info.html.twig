@@ -1,0 +1,15 @@
+<div class="animation-info">
+  {% if animation.label %}
+  <h3 class="label">{{ animation.label }}</h3>
+  {% endif %}
+  {% if description %}
+  <div class="description">
+    {{ description }}
+  </div>
+  {% endif %}
+  {% if icon %}
+  <div class="icon">
+    <img src="{{ icon }}" class="animation-icon">
+  </div>
+  {% endif %}
+</div>

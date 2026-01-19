@@ -1,0 +1,35 @@
+id: fade_in_title_and_link
+label: 'Fade-In Title, Text, & Link'
+description: 'Title and text will separately fade in when they are in the center of the viewport (with configurable offset).'
+status: 1
+allowed_story_blocks:
+  -
+    label: 'Image & Text'
+    bundle: s2_story_block
+custom_fields:
+  -
+    type: textfield
+    id: duration
+    label: 'Animation Speed'
+    description: 'This is how fast the header will show/hide (0.1 to 1)'
+    default_value: 0.2
+  -
+    type: textfield
+    id: offset
+    label: 'Trigger Offset'
+    description: 'Offset for the Hide Animation (below the header in px)'
+    default_value: 0
+  -
+    type: textfield
+    id: additional_percent
+    label: 'Additional Vertical Percent'
+    description: 'Modify how far out (upwards i.e. Y direction) of the viewport the nav will move during the animations. A positive number will hide the nav more.'
+    default_value: 0
+  -
+    type: checkbox
+    id: markers
+    label: 'Markers'
+    description: 'Show ScrollTrigger markers for debugging purposes.'
+    default_value: 0
+icon: ''
+gsap_code: 'let [timeline] = gsap.timeline({ scrollTrigger: { trigger: "[section_id]", start: "top-=[start_offset]"+ " bottom-=25%", end: "bottom-=[start_offset]" + "top-=25%", toggleActions: ([toggle_action] === 1) ? "restart none none reverse" : "play none none none", markers: ([markers] === 1), scrub: ([scrub] === 1) } }); gsap.utils.toArray("[section_id] .section-title, [section_id] .story-block-text, [section_id] .story-block-link").forEach(item => { gsap.utils.toArray(item).forEach(el => { gsap.set(el, {position:"relative", opacity:0, top:"[rise]px"}); [timeline].to(el, { opacity: 1, top: 0, duration: [duration], ease: "power3.out" }, "<[lag]"); }); });'

@@ -1,0 +1,6 @@
+services:
+  animation.helper:
+    class: Drupal\animation\Helper
+    arguments: ['@entity_type.manager',
+                '@renderer'
+    ]

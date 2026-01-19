@@ -1,0 +1,53 @@
+id: fade_in_headings
+label: 'Fade-in Heading and Subheading'
+description: 'The Heading and Sub-Heading will separately fade in when they are in the center of the viewport (with configurable offset).'
+status: 1
+allowed_story_blocks:
+  -
+    label: 'Hero'
+    bundle: hero_section
+custom_fields:
+  -
+    type: textfield
+    id: rise
+    label: 'Rise Amount'
+    description: 'Specify how much rise the animated part will exhibit when they are revealed (in px).'
+    default_value: 50
+  -
+    type: textfield
+    id: start_offset
+    label: 'Animation Start Offset'
+    description: 'Specify how soon the animation will start on scroll. A higher number will make it start sooner.'
+    default_value: 0
+  -
+    type: textfield
+    id: duration
+    label: 'Animation Duration (seconds)'
+    description: 'Specify how long the animation will take to complete (in seconds).'
+    default_value: 0.5
+  -
+    type: textfield
+    id: lag
+    label: 'Lag Time'
+    description: 'This controls the amount of lag (in seconds) between the title and text animations.'
+    default_value: 0.25
+  -
+    type: checkbox
+    id: toggle_action
+    label: 'Restart Animation?'
+    description: 'If checked, the animation will restart when the user scrolls back up the page.'
+    default_value: 0
+  -
+    type: checkbox
+    id: scrub
+    label: 'Scrub?'
+    description: 'Should the animation move in time with scrolling? (Advanced).'
+    default_value: 0
+  -
+    type: checkbox
+    id: markers
+    label: 'Markers'
+    description: 'Show ScrollTrigger markers for debugging purposes.'
+    default_value: 0
+icon: ''
+gsap_code: 'let [timeline] = gsap.timeline({ scrollTrigger: { trigger: "[section_id]", start: "top-=[start_offset]"+ " bottom-=25%", end: "bottom-=[start_offset]" + "top-=25%", toggleActions: ([toggle_action] === 1) ? "restart none none reverse" : "play none none none", markers: ([markers] === 1), scrub: ([scrub] === 1) } }); gsap.utils.toArray("[section_id] .hero-title-wrapper").forEach(item => { gsap.utils.toArray(item).forEach(el => { gsap.set(el, {position:"relative", opacity:0, top:"[rise]px"}); [timeline].to(el, { opacity: 1, top: 0, duration: [duration], ease: "power3.out" }, "<[lag]"); }); });'

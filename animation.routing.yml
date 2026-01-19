@@ -1,0 +1,47 @@
+entity.animation.collection:
+  path: '/admin/structure/animation'
+  defaults:
+    _entity_list: 'animation'
+    _title: 'animation list'
+  requirements:
+    _permission: 'administer animations'
+
+entity.animation.add_form:
+  path: '/admin/structure/animation/add'
+  defaults:
+    _entity_form: 'animation.add'
+    _title: 'Add an animation'
+  requirements:
+    _permission: 'create animation'
+
+entity.animation.edit_form:
+  path: '/admin/structure/animation/{animation}'
+  defaults:
+    _entity_form: 'animation.edit'
+    _title: 'Edit animation'
+  requirements:
+    _permission: 'edit animation'
+
+entity.animation.delete_form:
+  path: '/admin/structure/animation/{animation}/delete'
+  defaults:
+    _entity_form: 'animation.delete'
+    _title: 'Delete an animation'
+  requirements:
+    _permission: 'delete animation'
+
+animation.animation_select_form:
+  path: '/animation/{root_parent_type}/{root_parent}/paragraphs/{paragraph}/config'
+  defaults:
+    _form: '\Drupal\animation\Form\AnimationSelectForm'
+    _title: 'Edit Animation'
+  requirements:
+    _entity_access: 'root_parent.update'
+    root_parent: \d+
+  options:
+    _admin_route: TRUE
+    parameters:
+      root_parent:
+        type: 'entity:{root_parent_type}'
+      paragraph:
+        type: 'entity:paragraph'

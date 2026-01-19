@@ -1,0 +1,56 @@
+animation.animation.*:
+  type: config_entity
+  label: animation
+  mapping:
+    id:
+      type: string
+      label: ID
+    label:
+      type: label
+      label: Label
+    uuid:
+      type: string
+    description:
+      type: string
+    status:
+      type: boolean
+    allowed_story_blocks:
+      type: sequence
+      label: 'Allowed Story Blocks'
+      sequence:
+        type: mapping
+        mapping:
+          label:
+            type: string
+            label: Label
+          bundle:
+            type: string
+            label: 'Paragraph Bundle ID'
+    custom_fields:
+      type: animation.custom.field
+      label: 'Fields allowed to customize the animation'
+    icon:
+      type: string
+      label: 'Url to an icon representing the animation'
+    gsap_code:
+      type: string
+      label: 'GSAP Code'
+animation.custom.field:
+  type: mapping
+  label: 'Custom field definition'
+  mapping:
+    type:
+      type: string
+      label: 'Field Type'
+    id:
+      type: string
+      label: Name
+    label:
+      type: string
+      label: Label
+    description:
+      type: string
+      label: Description
+    default_value:
+      type: string
+      label: 'Default Value'

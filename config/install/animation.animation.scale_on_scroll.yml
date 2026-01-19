@@ -1,0 +1,53 @@
+id: scale_on_scroll
+label: 'Scale on Scroll'
+description: 'The header will scale vertically when the user scrolls a given distance down the page.'
+status: 1
+allowed_story_blocks:
+  -
+    label: 'Header Section'
+    bundle: header_section
+custom_fields:
+  -
+    type: textfield
+    id: starting_height
+    label: 'Starting Height'
+    description: 'The initial height of the header will decrease during the transformation.'
+    default_value: 150px
+  -
+    type: textfield
+    id: height
+    label: 'Height Change'
+    description: 'The amount (in px) that the header height will decrease during the transformation.'
+    default_value: 50px
+  -
+    type: textfield
+    id: logo_height
+    label: 'Logo Height Change'
+    description: 'The amount (in px) that the logo height will decrease during the transformation.'
+    default_value: 15px
+  -
+    type: textfield
+    id: ending_color
+    label: 'Ending Color'
+    description: 'Specify the background color that the header will transition to.'
+    default_value: '#eee'
+  -
+    type: textfield
+    id: offset
+    label: 'Trigger Offset'
+    description: 'The trigger point for the animation, in px below the header.'
+    default_value: 0
+  -
+    type: textfield
+    id: duration
+    label: 'Animation Time'
+    description: 'The time (in sec) that the animation will take (higher is slower)'
+    default_value: 0.5
+  -
+    type: checkbox
+    id: markers
+    label: 'Markers'
+    description: 'Show ScrollTrigger markers for debugging purposes.'
+    default_value: 0
+icon: ''
+gsap_code: 'gsap.set("#site-header", {position:"fixed", width:"100%"}); let [timeline] = gsap.timeline({ scrollTrigger: { trigger: "#site-header", toggleActions: "play none none reverse", start: "bottom+=[offset] top", markers: ([markers] === 1) } }); gsap.set( "#site-header", { height: "[starting_height]" } ); [timeline].to("#site-header", { duration: [duration], height: "-=[height]", backgroundColor: "[ending_color]" }) .to(".navbar-brand", { duration: [duration], width: "-=[logo_height]", ease: "none" }, 0) .to("body", { duration: [duration], paddingTop: "-=[height]" }, 0);'

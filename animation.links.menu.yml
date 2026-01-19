@@ -1,0 +1,5 @@
+entity.animation.overview:
+  title: animations
+  parent: system.admin_structure
+  description: 'List of animations to extend story block functionality.'
+  route_name: entity.animation.collection

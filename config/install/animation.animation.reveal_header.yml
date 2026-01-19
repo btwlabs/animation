@@ -1,0 +1,35 @@
+id: reveal_header
+label: 'Reveal Header on Scroll Up'
+description: 'The header will hide as the user scrolls down the page, and then automatically slide into view when they scroll up.'
+status: 1
+allowed_story_blocks:
+  -
+    label: 'Header Section'
+    bundle: header_section
+custom_fields:
+  -
+    type: textfield
+    id: duration
+    label: 'Animation Speed'
+    description: 'This is how fast the header will show/hide (0.1 to 1)'
+    default_value: 0.2
+  -
+    type: textfield
+    id: offset
+    label: 'Trigger Offset'
+    description: 'Offset for the Hide Animation (below the header in px)'
+    default_value: 0
+  -
+    type: textfield
+    id: additional_percent
+    label: 'Additional Vertical Percent'
+    description: 'Modify how far out (upwards i.e. Y direction) of the viewport the nav will move during the animations. A positive number will hide the nav more.'
+    default_value: 0
+  -
+    type: checkbox
+    id: markers
+    label: 'Markers'
+    description: 'Show ScrollTrigger markers for debugging purposes.'
+    default_value: 0
+icon: ''
+gsap_code: 'gsap.set("#site-header", {position:"fixed", width:"100%"}); const showAnim = gsap.from("#site-header", { yPercent: -(document.querySelector("#site-header").scrollHeight/80*100)-([additional_percent]), paused: true, duration: [duration] }).progress(1); ScrollTrigger.create({ trigger: ".navbar", start: "bottom+=[offset] top", end: 99999, onUpdate: (self) => { self.direction === -1 ? showAnim.play() : showAnim.reverse() } });'

@@ -1,0 +1,8 @@
+administer animations:
+  title: 'Administer animations'
+create animation:
+  title: 'Create animation'
+edit animation:
+  title: 'Edit animation'
+delete animation:
+  title: 'Delete animation'

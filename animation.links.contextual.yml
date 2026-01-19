@@ -1,0 +1,5 @@
+animation.animation:
+  route_name: animation.animation_select_form
+  group: paragraph
+  title: Edit Animation
+  weight: -9

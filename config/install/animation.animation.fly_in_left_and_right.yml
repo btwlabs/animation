@@ -1,0 +1,35 @@
+id: fly_in_left_and_right
+label: 'Fly in Left and Right'
+description: 'The Right and Left groups in the Image & Text section will animate from offscreen into place.'
+status: 1
+allowed_story_blocks:
+  -
+    label: 'Image & Text'
+    bundle: s2_story_block
+custom_fields:
+  -
+    type: textfield
+    id: duration
+    label: 'Animation Duration (sec)'
+    description: 'This controls the speed of the animation. A higher number will make it slower.'
+    default_value: 0.54
+  -
+    type: textfield
+    id: section_offset
+    label: 'Trigger Offset'
+    description: 'The animation will trigger when the center of the section hits the center of the viewport. This setting tweaks that trigger point. A positive number will make it trigger later. You can use a number (px) or percent % of the height of the section.'
+    default_value: -25%
+  -
+    type: textfield
+    id: timing_offset
+    label: 'Animation Timing Offset'
+    description: 'This will set how long it will take for the right animation to start after the left one starts. A higher number will make it start later.'
+    default_value: 0
+  -
+    type: checkbox
+    id: markers
+    label: 'Markers'
+    description: 'Show ScrollTrigger markers for debugging purposes.'
+    default_value: 0
+icon: ''
+gsap_code: 'let [timeline] = gsap.timeline({ scrollTrigger: { trigger: "[section_id]", start: "center+=[section_offset] center", toggleActions: "play none pause reverse", markers: ([markers] === 1) } }); [timeline].fromTo("[section_id] .group-left", { x: "-=100%" }, { x: "=0%", duration: [duration] }) .fromTo("[section_id] .group-right", { x: "+=100%" }, { x: "=0%", duration: [duration] }, "<" + [timing_offset]) .fromTo("[section_id] .group-left", { opacity: 0 }, { opacity: 1, duration: ([duration] * 1.5) }, 0) .fromTo("[section_id] .group-right", { opacity: 0 }, { opacity: 1, duration: ([duration] * 1.5) }, 0);'

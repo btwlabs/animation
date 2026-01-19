@@ -1,0 +1,89 @@
+<?php
+
+/**
+ * @file
+ * Contains flat_file_generator.module.
+ */
+
+const SECTION_PARAGRAPHS = [
+  'album_snipcart_button',
+  'blog_article',
+  'blog_teaser',
+  'feature_box',
+  'google_cse_search',
+  'bands_in_town_embed',
+  'breadcrumbs',
+  'business_information',
+  'catalog_item',
+  'contact_form',
+  'elfsight_widget_embed',
+  'facebook_embed',
+  'footer_section',
+  'header_section',
+  'hero_section',
+  'image_not_bg',
+  'image_two_across',
+  'instagram_lightwidget',
+  'google_map',
+  'mailchimp_newsletter_signup',
+  'modal_alert',
+  'musical_album',
+  's2_cards',
+  's2_embed',
+  's2_gallery',
+  's2_image',
+  's2_quote',
+  's2_story_block',
+  's2_slides',
+  's2_sub_card',
+  's2_sub_slide',
+  's2_text',
+  'snipcart_product',
+  'social_links',
+  'social_network_link',
+  'testimonial',
+  'twitter_embed',
+  'wufoo_contact_form',
+  'video'
+];
+
+const ANIMATION_NODES = [
+  'site_v2', 'story_subpage', 'catalog', 'case_study'
+];
+
+/**
+ * Implements hook_theme().
+ */
+function animation_theme($existing, $type, $theme, $path) {
+  return [
+    'animation_info' => [
+      'render element' => 'children',
+      'variables' => [
+        'animation' => []
+      ],
+    ]
+  ];
+}
+
+function template_preprocess_animation_info(&$vars) {
+  if (!empty($animation = $vars['animation'])) {
+    $vars['description'] = $animation->get('description');
+    $vars['icon'] = $animation->get('icon');
+  }
+}
+
+function animation_preprocess_node(&$variables) {
+  /**
+   * @var \Drupal\node\Entity\Node $node
+   */
+  $variables['animation_code'] = '';
+  if ($node = $variables['node']) {
+    if (in_array($node->getType(),ANIMATION_NODES)) {
+      $animation_helper = \Drupal::service('animation.helper');
+      $variables['animation_code'] = [
+        '#type' => 'inline_template',
+        '#template' => $animation_helper->getCode($node)
+      ];
+    }
+  }
+}

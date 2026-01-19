@@ -1,0 +1,9 @@
+{
+  "name": "bythewaylabs/animation",
+  "description": "Custom module: animation.",
+  "type": "drupal-custom-module",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "drupal/core": "^11"
+  }
+}

@@ -87,3 +87,17 @@ function animation_preprocess_node(&$variables) {
     }
   }
 }
+
+function animation_preprocess_taxonomy_term(&$variables) {
+  /**
+   * @var \Drupal\taxonomy\Entity\Term $term
+   */
+  $variables['animation_code'] = '';
+  if ($term = $variables['term']) {
+    $animation_helper = \Drupal::service('animation.helper');
+      $variables['animation_code'] = [
+        '#type' => 'inline_template',
+        '#template' => $animation_helper->getCode($term),
+      ];
+  }
+}

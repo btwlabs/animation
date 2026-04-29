@@ -3,8 +3,10 @@
 namespace Drupal\animation;
 
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Render\Renderer;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\node\NodeInterface;
@@ -32,16 +34,11 @@ class Helper {
     $this->renderer = $renderer;
   }
 
-  public function getCode(NodeInterface $site): string {
-    $nodes = [$site->id() => $site];
+  public function getCode(\Drupal\Core\Entity\FieldableEntityInterface $site): string {
     $paragraphs = [];
-    foreach($nodes as $page) {
-      if ($page->hasField('field_ff_content_story_blocks')) {
-        $paragraphs = array_merge($paragraphs, $page->get('field_ff_content_story_blocks')
-          ->referencedEntities());
-      }
-      if ($page->hasField('field_catalog_items')) {
-        $paragraphs = array_merge($paragraphs, $page->get('field_catalog_items')->referencedEntities());
+    foreach ($site->getFieldDefinitions() as $field_name => $definition) {
+      if ($definition->getSetting('target_type') === 'paragraph') {
+        $paragraphs = array_merge($paragraphs, $site->get($field_name)->referencedEntities());
       }
     }
 
@@ -50,17 +47,16 @@ class Helper {
     /**
      * @var Paragraph $paragraph
      */
-    foreach($paragraphs as $paragraph) {
-      // Get config code.
+    foreach ($paragraphs as $paragraph) {
       if ($paragraph->hasField('field_animation_config')) {
         if (!empty($animations = $paragraph->get('field_animation_config')->referencedEntities())) {
           $animation = $animations[0];
           $animation_code .= $animation->get('gsap_code');
-          // Replace options.
+
           if ($paragraph->hasField('field_animation_code')) {
             $option_string = str_replace('options=', '', $paragraph->get('field_animation_code')->value);
             $options = explode('|', $option_string);
-            foreach($options as $option) {
+            foreach ($options as $option) {
               if (!empty($option_parts = explode('=', $option))) {
                 if (count($option_parts) != 2) {
                   continue;
@@ -70,23 +66,20 @@ class Helper {
             }
           }
 
-          // Replace section ids.
           $section_id = $this->getSectionId($paragraph);
           $animation_code = str_replace('[section_id]', "#$section_id", $animation_code);
-          // Replace any [timeline] tokens with a random valid js variable name.
           $var_name = $this->getRandomVarName();
           $animation_code = str_replace('[timeline]', $var_name, $animation_code);
 
-          // Add refresh on widget loaded events.
           $animation_code .= "\ndocument.addEventListener('section-loaded', function() {\n" . "  if (typeof $var_name !== 'undefined') {\n  if (typeof $var_name.scrollTrigger !== 'undefined') {\n$var_name.scrollTrigger.refresh()\n  }\n}" . "});\n";
-          // Disable loading=lazy for any images.
-          // Since some animated paragrahs (eg header) dont have a valid $section_id we skip those.
+
           if ($section_id != $paragraph->id() && !is_numeric($section_id)) {
             $animation_code .= "gsap.utils.toArray('#$section_id img').forEach(function(image) { \nimage.removeAttribute('loading');\n});\n";
           }
         }
       }
     }
+
     return "<script>$animation_code</script>";
   }
 
